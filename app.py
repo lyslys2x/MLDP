@@ -33,8 +33,8 @@ if st.button("Predict Price"):
     # Convert input data to a DataFrame and one-hot encode
     input_df= pd.DataFrame({'town': [town_selected],
                             'flat_type': [flat_type_selected],
-                            'storey_range': [storey_range_selected,
-                            'floor_area_sqm': [floor_area_selected})
+                            'storey_range': [storey_range_selected],
+                            'floor_area_sqm': [floor_area_selected]})
     input_df = pd.get_dummies(input_df, columns=['town', 'flat_type', 'storey_range'])
     input_df = input_df.reindex(columns=model.feature_names_in_, fill_value=0)
 
