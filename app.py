@@ -44,11 +44,13 @@ if st.button("Predict Price"):
     st.success(f"Predicted Resale Price: ${prediction:,.2f}")
 
 st.markdown(
+    f"""
     <style>
     .stApp {{
         background: url("https://www.shutterstock.com/shutterstock/videos/1025418011/thumb/1.jpg");
         background-size: cover
     }}
-    </style>,
+    </style>
+    """,
     unsafe_allow_html=True
 )
