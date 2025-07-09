@@ -21,22 +21,34 @@ flat_type_selected = st.selectbox("Select Flat Type: ", flat_types)
 storey_range_selected = st.selectbox("Select the storey range: ", storey_ranges)
 floor_area_selected = st.slider("Select Floor Area (spm)", min_value=10, max_value=200, value=70)
 
-# predict button
-
-if st.button("Predict HDB Price: "):
+if st.button("Predict Price"):
+    # Create a dictionary for the input features
     input_data = {
-        "town": town_selected,
-        "flat_type": flat_type_selected,
-        "storey_range": storey_range_selected,
-        "floor_area": floor_area_selected
+        'town': selected_town,
+        'flat_type': selected_flat_type,
+        'storey_range': selected_storey_range,
+        'floor_area_sqm': selected_floor_area_sqm
     }
+    
+    # Convert input data to a DataFrame and one-hot encode
+    input_df= pd.DataFrame({'town': [selected_town],
+                            'flat_type': [selected_flat_type],
+                            'storey_range': [selected_storey_range],
+                            'floor_area_sqm': [selected_floor_area_sqm]})
+    input_df = pd.get_dummies(input_df, columns=['town', 'flat_type', 'storey_range'])
+    input_df = input_df.reindex(columns=model.feature_names_in_, fill_value=0)
 
-    df_input = pd.DataFrame([input_data])
 
-    df_input = df_input.reindex(columns= model.feature_names_in_, fill_value=0)
-    y_unseen_pred = model.predict(df_input)[0]
-    st.success(f"Predicted resale price: ${y_unseen_pred:, .2f}")
+    # Make prediction
+    prediction = model.predict(input_df)[0]
+    st.success(f"Predicted Resale Price: ${prediction:,.2f}")
 
 st.markdown(
-    unsafe_allow_html= True
+    <style>
+    .stApp {{
+        background: url("https://www.shutterstock.com/shutterstock/videos/1025418011/thumb/1.jpg");
+        background-size: cover
+    }}
+    </style>,
+    unsafe_allow_html=True
 )
